@@ -42,7 +42,7 @@ function update() {
     }
 
     if (cursors.up.isDown && player.body.touching.down) {
-        player.setVelocityY(-500);
+        player.setVelocityY(-550);
     }
 }
 

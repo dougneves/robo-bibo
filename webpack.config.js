@@ -15,67 +15,63 @@ const webpack = require('webpack');
  */
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-/*
- * We've enabled HtmlWebpackPlugin for you! This generates a html
- * page for you when you compile webpack, which will make you start
- * developing and prototyping faster.
- *
- * https://github.com/jantimon/html-webpack-plugin
- *
- */
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-	mode: 'development',
-	entry: './src/index.js',
+    mode: 'development',
+    entry: './src/index.js',
 
-	output: {
-		filename: '[name].[chunkhash].js',
-		path: path.resolve(__dirname, 'dist')
-	},
+    output: {
+        filename: '[name].[chunkhash].js',
+        path: path.resolve(__dirname, 'dist')
+    },
 
-	plugins: [new webpack.ProgressPlugin(), new HtmlWebpackPlugin()],
+    plugins: [
+        new webpack.ProgressPlugin(),
+        new HtmlWebpackPlugin(),
+        new CopyPlugin([{ from: 'assets', to: 'assets' }])
+    ],
 
-	module: {
-		rules: [
-			{
-				test: /.(js|jsx)$/,
-				include: [path.resolve(__dirname, 'src')],
-				loader: 'babel-loader',
+    module: {
+        rules: [
+            {
+                test: /.(js|jsx)$/,
+                include: [path.resolve(__dirname, 'src')],
+                loader: 'babel-loader',
 
-				options: {
-					plugins: ['syntax-dynamic-import'],
+                options: {
+                    plugins: ['syntax-dynamic-import'],
 
-					presets: [
-						[
-							'@babel/preset-env',
-							{
-								modules: false
-							}
-						]
-					]
-				}
-			}
-		]
-	},
+                    presets: [
+                        [
+                            '@babel/preset-env',
+                            {
+                                modules: false
+                            }
+                        ]
+                    ]
+                }
+            }
+        ]
+    },
 
-	optimization: {
-		splitChunks: {
-			cacheGroups: {
-				vendors: {
-					priority: -10,
-					test: /[\\/]node_modules[\\/]/
-				}
-			},
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                vendors: {
+                    priority: -10,
+                    test: /[\\/]node_modules[\\/]/
+                }
+            },
 
-			chunks: 'async',
-			minChunks: 1,
-			minSize: 30000,
-			name: true
-		}
-	},
+            chunks: 'async',
+            minChunks: 1,
+            minSize: 30000,
+            name: true
+        }
+    },
 
-	devServer: {
-		open: true
-	}
+    devServer: {
+        open: true
+    }
 };
