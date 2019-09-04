@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import './index.css';
 
 function preload() {
     this.load.image('bibo', 'assets/bibo.png');
@@ -28,68 +29,30 @@ function create() {
 
     this.physics.add.collider(player, platforms);
 
+    this.cameras.main.startFollow(player);
+
     cursors = this.input.keyboard.createCursorKeys();
-
-    this.zoneMoveBack = this.add
-        .zone(0, 0, 1280 / 4, 720)
-        .setOrigin(0)
-        .setName('zoneMoveBack')
-        .setInteractive();
-    this.zoneMoveFoward = this.add
-        .zone(1280 / 4, 0, 1280 / 2, 720)
-        .setOrigin(0)
-        .setName('zoneMoveFoward')
-        .setInteractive();
-    this.zoneJump = this.add
-        .zone(1280 / 2, 0, 1280, 720)
-        .setOrigin(0)
-        .setName('zoneJump')
-        .setInteractive();
-
-    this.input.on('gameobjectdown', (pointer, gameObject) => {
-        try {
-            this[gameObject.name].down = true;
-        } catch {}
-    });
-    this.input.on('gameobjectup', (pointer, gameObject) => {
-        try {
-            this[gameObject.name].down = false;
-        } catch { }
-    });
-    this.input.on('gameobjectout', (pointer, gameObject) => {
-        try {
-            this[gameObject.name].down = false;
-        } catch { }
-    });
-    this.input.on('gameobjectover', (pointer, gameObject) => {
-        try {
-            if (pointer.downTime) {
-                this[gameObject.name].down = true;
-            }
-        } catch { }
-    });
-    
 }
 
 function update() {
-    if (cursors.left.isDown || this.zoneMoveBack.down) {
+    if (cursors.left.isDown) {
         player.setVelocityX(-160);
-        console.log('left');
-    } else if (cursors.right.isDown || this.zoneMoveFoward.down) {
+    } else if (cursors.right.isDown) {
         player.setVelocityX(160);
     } else {
         player.setVelocityX(0);
     }
 
-    if ((cursors.up.isDown || this.zoneJump.down) && player.body.touching.down) {
+    if (cursors.up.isDown && player.body.touching.down) {
         player.setVelocityY(-550);
     }
 }
 
 const config = {
     type: Phaser.AUTO,
-    width: 1280,
-    height: 720,
+    scale: {
+        mode: Phaser.Scale.RESIZE
+    },
     scene: {
         preload: preload,
         create: create,
