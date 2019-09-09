@@ -21,6 +21,9 @@ function create() {
     platforms.create(600, 400, 'ground');
     platforms.create(50, 250, 'ground');
     platforms.create(750, 220, 'ground');
+    platforms.create(0, 15500, 'ground');
+    platforms.create(15000, 15500, 'ground');
+
 
     player = this.physics.add.sprite(100, 450, 'bibo');
 
@@ -50,6 +53,8 @@ function update() {
 
 const config = {
     type: Phaser.AUTO,
+    width: 11520,
+    height: 6480,
     scale: {
         mode: Phaser.Scale.RESIZE
     },
@@ -62,7 +67,11 @@ const config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 900 },
-            debug: false
+            debug: false,
+            x: 0,
+            y: 0,
+            width: 16000,
+            height: 16000
         }
     }
 };
