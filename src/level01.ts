@@ -13,8 +13,16 @@ const LEVEL_01_GROUNDS = [
 const GROUND_PIXEL_SIZE = 100;
 
 class Level01 extends Phaser.Scene {
+    platforms: Phaser.Physics.Arcade.StaticGroup;
+    player: Phaser.Physics.Arcade.Sprite;
+    cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+
     constructor() {
         super('Leval01');
+
+        this.platforms = null;
+        this.player = null;
+        this.cursors = null;
     }
 
     preload() {
@@ -31,7 +39,7 @@ class Level01 extends Phaser.Scene {
     create() {
         this.platforms = this.physics.add.staticGroup();
 
-        for (ground of LEVEL_01_GROUNDS) {
+        for (const ground of LEVEL_01_GROUNDS) {
             const [start, finish] = ground;
             const [startx, starty] = start;
             const [finishx, finishy] = finish;
@@ -64,7 +72,7 @@ class Level01 extends Phaser.Scene {
 
         this.anims.create({
             key: 'walk',
-            frames: this.anims.generateFrameNumbers('bibo'),
+            frames: this.anims.generateFrameNumbers('bibo', null),
             frameRate: 4,
             repeat: -1
         });
@@ -97,4 +105,4 @@ class Level01 extends Phaser.Scene {
     }
 }
 
-module.exports = Level01;
+export default Level01;
